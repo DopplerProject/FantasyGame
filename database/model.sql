@@ -35,11 +35,19 @@ CREATE TABLE tb_usuario(
         partida INTEGER,
         PRIMARY KEY(periodo, partida)
     );
-    CREATE TABLE tb_resultado_partida(
+    CREATE TABLE tb_partida(
+        par_codigo INTEGER NOT NULL AUTO_INCREMENT,
+        par_data DATE,
+        par_time1 INTEGER,
+        par_time2 INTEGER,
+        PRIMARY KEY(par_codigo)
+    );
+    CREATE TABLE tb_resultado_player_partida(
         resp_codigo INTEGER NOT NULL AUTO_INCREMENT,
+        resp_partida INTEGER,
         resp_player INTEGER,
-        resp_dataPartida DATE,
-        resp_kd FLOAT,
+        resp_kills INT,
+        resp_deaths INT,
         resp_saldoKills INTEGER,
         resp_adr FLOAT,
         resp_kast FLOAT,
@@ -64,7 +72,7 @@ CREATE TABLE tb_usuario(
         jog_dtLancamento DATE,
         PRIMARY KEY(jog_codigo)
     );
-    CREATE TABLE rl_organizacao_player(
+    CREATE TABLE rl_organizacao_jogo(
         organizacao INTEGER,
         jogo INTEGER
     );
@@ -90,7 +98,13 @@ CREATE TABLE tb_usuario(
 
 ALTER TABLE rl_player_organizacao
     ADD CONSTRAINT fk_proplayer FOREIGN KEY(pro_cod) REFERENCES tb_player(pro_cod);
-ALTER TABLE rl_organizacao_player
+ALTER TABLE rl_organizacao_jogo
     ADD CONSTRAINT uk_organizacaojogo_jogo FOREIGN KEY(jogo) REFERENCES tb_jogo(jog_codigo);
-ALTER TABLE rl_organizacao_player
+ALTER TABLE rl_organizacao_jogo
     ADD CONSTRAINT uk_organizacaojogo_organizacao FOREIGN KEY(organizacao) REFERENCES tb_organizacao(org_cod);
+ALTER TABLE tb_partida
+    ADD CONSTRAINT fk_time1 FOREIGN KEY(par_time1) REFERENCES tb_organizacao(org_cod);
+ALTER TABLE tb_partida
+    ADD CONSTRAINT fk_time2 FOREIGN KEY(par_time2) REFERENCES tb_organizacao(org_cod);
+ALTER TABLE tb_resultado_player_partida
+    ADD CONSTRAINT fk_partida FOREIGN KEY(resp_partida) REFERENCES tb_partida(par_codigo);
