@@ -79,12 +79,12 @@
             );
         }
         // Delete de registros com base no cod
-        public function delete($cod){
+        public function delete(){
             $conection = new ConectionDatabase();
             mysqli_query
             (
                 $conection->conectDatabase(),
-                "DELETE FROM tb_usuario WHERE usu_cod = '$cod';"
+                "DELETE FROM tb_usuario WHERE usu_cod = '$this->usu_cod';"
             );
         }
 
