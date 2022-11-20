@@ -1,0 +1,18 @@
+=============================
+	REQUISITOS DO SISTEMA
+=============================
+
+=> FUNCIONAIS
+	- O usuário deve conseguir fazer login no sistema utilizando nickname, email ou celular cadastrado
+	- O usuário deve conseguir realizar seu cadastro no sistema informando nickname, celular e email que já não estejam cadastrados
+	- O usuário deve conseguir alterar as informações em seu cadastro, desde que as mesmas já não estejam em uso por outro usuário
+	- O usuário deve poder realizar as escalações de seus jogadores quando o período estiver aberto
+	- O usuário deve poder rezalizar as escalações de seus jogadores com validação do saldo de moedas em sua conta, sendo barrado caso passar do limite
+	- Ao término de um período de escalação e com os resultados das partidas, o sistema deve calcular os resultados e redistribuir as recompensas para os usuários
+	
+=> NÃO FUNCIONAIS:
+	- O sistema deve ser responsivo
+	- O sistema deve ser simples e intuitivo
+	- O sistema deverá contér abas informativas de uso
+
+=============================

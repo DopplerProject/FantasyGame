@@ -11,6 +11,7 @@ CREATE TABLE tb_usuario(
         usu_email VARCHAR(100),
         usu_celular CHAR(11),
         usu_senha VARCHAR(250),
+        usu_money FLOAT,
         PRIMARY KEY(usu_cod),
         INDEX(usu_nickname),
         INDEX(usu_email),
@@ -22,6 +23,7 @@ CREATE TABLE tb_usuario(
         esc_usuario INTEGER,
         esc_playerEscalado INTEGER,
         esc_multiplicador FLOAT,
+        esc_periodo INT,
         PRIMARY KEY(esc_codigo)
     );
     CREATE TABLE tb_periodo(
@@ -108,3 +110,5 @@ ALTER TABLE tb_partida
     ADD CONSTRAINT fk_time2 FOREIGN KEY(par_time2) REFERENCES tb_organizacao(org_cod);
 ALTER TABLE tb_resultado_player_partida
     ADD CONSTRAINT fk_partida FOREIGN KEY(resp_partida) REFERENCES tb_partida(par_codigo);
+ALTER TABLE tb_escalacao
+    ADD CONSTRAINT fk_periodo FOREIGN KEY(esc_periodo) REFERENCES tb_periodo(per_cod);
