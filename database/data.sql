@@ -1,4 +1,7 @@
+
 -- Acesso de administrador ao sistema
+
+USE DB_TCC;
 INSERT INTO tb_usuario(usu_nickname, usu_email, usu_celular, usu_senha)
 VALUES (
     'ADMIN',

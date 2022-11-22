@@ -1,3 +1,7 @@
+<?php
+    $usu_cod = $_GET["usu_cod"];
+?>
+
 <!DOCTYPE html>
 <html lang="pt-Br">
     <head>
@@ -13,5 +17,9 @@
     </head>
     <body>
         <h1>PÁGINA PRINCIPAL</h1>
+        <button>
+            <a href="../view/FrmProfile.php?"
+        </button>
+        
     </body>
 </html>

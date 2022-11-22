@@ -19,15 +19,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Links -->
         <link href="../../product/css/style.css" rel="stylesheet">
+        <script src="../../product/js/Form.js"></script>
         <!-- Aba Navegador -->
         <title>Login</title>
-        <script src="../../product/js/Form.js"></script>
     </head>
     <body>
         
         <div class="container">
             <div id="div-form-login"> 
-                <!-- CONTINUAR DAQUI -->
                 <form id="form-login" action="../controller/LoginController.php" method="POST" autocomplete="off"">
                     <table id="table-login" class="table">
                         <th id="login-header">
