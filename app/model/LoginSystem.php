@@ -32,7 +32,7 @@
             }
             // Checando se a senha é igual \\
             if($pass == $usuarioDAO->getUsu_senha()){
-                return true;  // Senha correta
+                return array("flag" => true, "usu_cod" => $usuarioDAO->getUsu_cod());  // Senha correta
             } else{
                 return false;  // Senha incorreta
             }

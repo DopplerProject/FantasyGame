@@ -3,7 +3,7 @@
     require_once "../util/MySqlConnection.php";
     require_once "../util/SqlConditions.php";
 
-    $usu_cod = $_POST["usu_cod"];
+    $usu_cod = $_GET["cd"];
     $conection = new ConectionDatabase();
     $condition = new SqlConditions();
     $condition->setFields(array("usu_cod" => $usu_cod));
@@ -13,7 +13,7 @@
         "SELECT usu_nickname,
                 usu_email,
                 usu_celular
-         FROM tb_usuario" . $condition->generateSqlConditions()
+         FROM tb_usuario " . $condition->generateSqlConditions()
     );
 
     $res = mysqli_fetch_assoc($query);
@@ -33,6 +33,9 @@
         <link href="../../product/css/style.css" rel="stylesheet">
         <!-- Aba do navegador -->
         <title>Perfil</title>
+        <!-- SCRIPTS PARA MÁSCARAS NOS CADASTROS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -47,9 +50,7 @@
                         </td>
                         <td class="profile-data column">
                             <input type="text" name="usu_cod" class="profile-input inputbox" disabled
-                             value="
-                                <?php echo($usu_cod); ?>
-                             ">
+                             value="<?php echo(trim($usu_cod)); ?>">
                         </td>
                         <td class="espace"></td>
                         <td class="profile-data column">
@@ -57,9 +58,7 @@
                         </td>
                         <td class="profile-data column">
                             <input type="text" name="usu_nickname" class="profile-input inputbox"
-                             value="
-                                <?php echo($usu_nickname); ?>
-                             ">
+                             value="<?php echo(trim($usu_nickname)); ?>">
                         </td>
                     </tr>
                     <tr class="table-row profile-row">
@@ -67,10 +66,8 @@
                             <label class="profile-label">E-MAIL:</label>
                         </td>
                         <td class="profile-data column">
-                            <input type="text" name="usu_email" class="profile-input inputbox" disabled
-                             value="
-                                <?php echo($usu_email); ?>
-                             ">
+                            <input type="email" name="usu_email" class="profile-input inputbox" disabled
+                             value="<?php echo($usu_email); ?>">
                         </td>
                         <td class="espace"></td>
                         <td class="profile-data column">
@@ -78,12 +75,14 @@
                         </td>
                         <td class="profile-data column">
                             <input type="text" name="usu_celular" class="profile-input inputbox"
-                             value="
-                                <?php echo($usu_celular); ?>
-                             ">
+                             value="<?php echo($usu_celular); ?>" onkeypress="$(this).mask('(00) 00000-0000')">
                         </td>
                     </tr>
+                    <input class="button sabe-btn" type="submit" value="SALVAR">
                 </form>
+                <a href="../view/FrmMainPage.php?cd=<?php echo($usu_cod) ?>">
+                    CANCELAR
+                </a>
             </div>
         </div>
     </body>

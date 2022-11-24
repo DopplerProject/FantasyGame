@@ -1,5 +1,5 @@
 <?php
-    $usu_cod = $_GET["usu_cod"];
+    $usu_cod = $_GET["cd"];
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +17,8 @@
     </head>
     <body>
         <h1>PÁGINA PRINCIPAL</h1>
-        <button>
-            <a href="../view/FrmProfile.php?"
-        </button>
-        
+        <a href="../view/FrmProfile.php?cd=<?php echo($_GET["cd"]);?> ">
+            MEU PERFIL
+        </a>
     </body>
 </html>

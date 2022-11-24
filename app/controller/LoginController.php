@@ -19,9 +19,9 @@
     
     
     $loginSystem = new LoginSystem();
-    echo($loginSystem->loginSystem($type, $user, $pass));
-    if($loginSystem->loginSystem($type, $user, $pass) === true){
-        header("Location: ../view/FrmMainPage.php");
+    $login = $loginSystem->loginSystem($type, $user, $pass);
+    if($login["flag"] === true){
+        header("Location: ../view/FrmMainPage.php?cd=" . $login["usu_cod"]);
         die();
     }else{
         header("Location: ../view/FrmLogin.php?msg=1");
