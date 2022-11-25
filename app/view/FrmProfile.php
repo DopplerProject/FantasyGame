@@ -4,6 +4,8 @@
     require_once "../util/SqlConditions.php";
 
     $usu_cod = $_GET["cd"];
+    $msg = $_GET["msg"];
+
     $conection = new ConectionDatabase();
     $condition = new SqlConditions();
     $condition->setFields(array("usu_cod" => $usu_cod));
@@ -80,6 +82,10 @@
                     </tr>
                     <input class="button sabe-btn" type="submit" value="SALVAR">
                 </form>
+                <a href="../view/FrmChangePassword.php?msg=null&cd=<?php echo($usu_cod) ?>">
+                    ALTERAR A SENHA
+                </a>
+                <br>
                 <a href="../view/FrmMainPage.php?cd=<?php echo($usu_cod) ?>">
                     CANCELAR
                 </a>

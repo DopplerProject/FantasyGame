@@ -17,7 +17,7 @@
     </head>
     <body>
         <h1>PÁGINA PRINCIPAL</h1>
-        <a href="../view/FrmProfile.php?cd=<?php echo($_GET["cd"]);?> ">
+        <a href="../view/FrmProfile.php?msg=null&cd=<?php echo($_GET["cd"]);?> ">
             MEU PERFIL
         </a>
     </body>
