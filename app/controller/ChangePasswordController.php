@@ -1,24 +1,40 @@
 <?php
 
-    $usu_cod = $_GET["cd"];
-
     require_once "../util/Password.php";
     require_once "../dao/usuarioDAO.php";
 
-    $password = new Password();
+    $usu_cod = $_GET["cd"];
+
+    $passwordCurrent = new Password();
+    $passwordNew = new Password();
+    $passwordRepeat = new Password();
     $usuarioDAO = new UsuarioDAO();
 
-    $usuarioDAO->list($usu_cod);
+    $usuarioDAO->list(usu_cod:$usu_cod);
 
-    $current_password = $_POST["usu_password"];
-    $new_password = $_POST["new_password"];
-    $repeat_password = $_POST["repeat_password"];
+    $passwordCurrent->setPassword($_POST["usu_password"]);
+    $passwordNew->setPassword($_POST["new_password"]);
+    $passwordRepeat->setPassword($_POST["repeat_password"]);
 
-    // Checando se a senha informada é igual a atual \\
-    if($password->cryptography($current_password) == $usuarioDAO->getUsu_senha()){
-        
+
+    // Verificando se a nova senha não é igual a anterior
+    if($passwordNew->cryptography() == $usuarioDAO->getUsu_senha()){
+        header("Location: ../view/FrmChangePassword.php?cd=" . $login["usu_cod"] . "&msg=SENHA IGUAL");
+        die();
+    } else if($passwordNew->cryptography() <> $passwordRepeat->cryptography()){  // Checando se a confirmação da nova senha corresponde
+        header("Location: ../view/FrmChangePassword.php?cd=" . $login["usu_cod"] . "&msg=SENHAS DIVERGENTES");
+        die();
+    } else if($usuarioDAO->getUsu_senha() <> $passwordCurrent->cryptography()){
+        // header("Location: ../view/FrmChangePassword.php?cd=" . $login["usu_cod"] . "&msg=SENHA INCORRETA");
+        // die();
+        echo("CÓDIGO: " . $usuarioDAO->getUsu_cod());
+        echo("NICKNAME: " . $usuarioDAO->getUsu_nickname());
+        echo("E-MAIL: " . $usuarioDAO->getUsu_email());
+        echo("CELULAR: " . $usuarioDAO->getUsu_celular());
+        echo("SENHA: " . $usuarioDAO->getUsu_senha());
     } else{
-        // A senha informada não corresponde a sua senha atual
+        header("Location: ../view/FrmChangePassword.php?cd=" . $usu_cod . "&msg=SENHA ALTERADA");
+        die();
     }
 
-?>
+?>  

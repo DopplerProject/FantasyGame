@@ -4,6 +4,21 @@
 
     $usu_cod = $_GET["cd"];
     $msg = $_GET["msg"];
+
+    switch($msg){
+        case "SENHA INCORRETA":
+            echo '<span id="mensage-password" class="mensage">A SENHA INFORMADA NÃO CORRESPONDE COM SUA SENHA ATUAL</span>';
+            break;
+        case "SENHA IGUAL":
+            echo '<span id="mensage-password" class="mensage">A NOVA SENHA NÃO PODE SER IGUAL A ANTERIOR</span>';
+            break;
+        case "SENHA ALTERADA":
+            echo '<span id="mensage-password" class="mensage">SENHA ALTERADA COM SUCESSO</span>';
+            break;
+        case "SENHAS DIVERGENTES":
+            echo '<span id="mensage-password" class="mensage">AS NOVAS SENHA INFORMADAS NÃO CORRESPONDEM</span>';
+            break;
+    }
     
 ?>
 
@@ -21,7 +36,7 @@
     <body>
         <div class="container">
             <div id="div-form-password">
-                <form id="form-password" action="../controller/ChangePasswordController.php" method="POST" autocomplete="off">
+                <form id="form-password" action="../controller/ChangePasswordController.php?cd=" <?php echo($usu_cod) ?> method="POST" autocomplete="off">
                     <th id="password-header">
                         <!-- CABEÇALHO DO FORMULÁRIO -->
                     </th>
@@ -30,7 +45,7 @@
                             <label class="password-label">SENHA ATUAL:</label>
                         </td>
                         <td class="password-data column">
-                            <input type="password" name="usu_password" class="password-input inputbox">
+                            <input type="password" name="usu_password" class="password-input inputbox" required>
                         </td>
                     </tr>
                     <tr class="table-row password-row">
@@ -38,7 +53,7 @@
                             <label class="password-label">NOVA SENHA:</label>
                         </td>
                         <td class="password-data column">
-                            <input type="password" name="new_password" class="password-input inputbox">
+                            <input type="password" name="new_password" class="password-input inputbox" required>
                         </td>
                     </tr>
                     <tr class="table-row password-row">
@@ -47,7 +62,7 @@
                         </td>
                         <td class="password-data column">
                             <input type="password" name="repeat_password" class="password-input inputbox"
-                                src="../controller/ChangePasswordController.php?cd=<?php echo($usu_cod) ?>">
+                                src="../controller/ChangePasswordController.php?cd=<?php echo($usu_cod) ?>" required>
                         </td>
                     </tr>
                     <input class="button sabe-btn" type="submit" value="SALVAR">
