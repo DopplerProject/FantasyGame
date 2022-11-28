@@ -59,7 +59,11 @@
                             }
                         ?>
 
-                        
+                        <a href="../view/FrmMainPage.php?cd=<?php echo($usu_cod) ?>">
+                            <div class="button">
+                                VOLTAR
+                            </div>
+                        </a>
                         
                         
                             
