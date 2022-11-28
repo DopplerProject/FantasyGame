@@ -88,6 +88,7 @@ CREATE TABLE tb_usuario(
         pro_cod INTEGER,
         pro_seq INTEGER,
         pro_time INTEGER,
+        pro_valor FLOAT,
         PRIMARY KEY(pro_cod, pro_seq)
     );
     CREATE TABLE tb_player(

@@ -20,5 +20,8 @@
         <a href="../view/FrmProfile.php?msg=null&cd=<?php echo($_GET["cd"]);?> ">
             MEU PERFIL
         </a>
+        <a href="../view/FrmLineup.php?cd=<?php echo($_GET["cd"]) ?>">
+            ESCALAR JOGADORES
+        </a>
     </body>
 </html>
