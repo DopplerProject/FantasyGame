@@ -1,5 +1,12 @@
 <?php
     $usu_cod = $_GET["cd"];
+    $msg = $_GET["msg"];
+
+    switch($msg){
+        case 1:
+            echo('<div class="mensage saldo-insuficiente">SALDO INSUFICIENTE</div>');
+            break;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -46,30 +53,28 @@
                                 while($player = mysqli_fetch_assoc($players)){
                                     // Listando os jogadores dinamicamente por time\\
                                     echo('<td class="player-colunm player-card">');
-                                            echo('<a href="../view/FrmPlayerDetails.php?cd=' . $usu_cod . '&player=' . $player["pro_cod"] . '">');
-                                                echo('<div class="player-name">' . $player["pro_nickname"] . '</div>');
-                                                echo('<img class="team-logo" src="../../product/images/icons_teams/' . $teams["pro_time"] . '.png">');
-                                                echo('<img class="players-photo" src="../../product/images/players_photos/' . $player["pro_cod"] . '.png">');
-                                                echo('<div class="player-value">' . 'R$' . number_format($player["pro_valor"], 2, ',', '.') . '</div>');
-                                            echo('</a>');
-                                            echo('<a href="../controller/LineUpController.php?cd='. $usu_cod . '&player=' . $player["pro_cod"] . '"><div class="button-select-player">ESCALAR</div></a>');
-                                        echo('</td>');
+                                        echo('<a href="../view/FrmPlayerDetails.php?cd=' . $usu_cod . '&player=' . $player["pro_cod"] . '">');
+                                            echo('<div class="player-name">' . $player["pro_nickname"] . '</div>');
+                                            echo('<img class="team-logo" src="../../product/images/icons_teams/' . $teams["pro_time"] . '.png">');
+                                            echo('<img class="players-photo" src="../../product/images/players_photos/' . $player["pro_cod"] . '.png">');
+                                            echo('<div class="player-value">' . 'R$' . number_format($player["pro_valor"], 2, ',', '.') . '</div>');
+                                        echo('</a>');
+                                        echo('<a href="../controller/LineUpController.php?cd='. $usu_cod . '&player=' . $player["pro_cod"] . '"><div class="button-select-player">ESCALAR</div></a>');
+                                    echo('</td>');
                                 }
                                 echo('</tr>'); 
                             }
                         ?>
 
-                        <a href="../view/FrmMainPage.php?cd=<?php echo($usu_cod) ?>">
-                            <div class="button">
-                                VOLTAR
-                            </div>
-                        </a>
                         
                         
-                            
-
+                        
+                        
                     </div>
                 </table>
+                <a href="../view/FrmMainPage.php?cd=<?php echo($usu_cod) ?>">
+                    <div class="button">VOLTAR</div>
+                </a>
             </div>
         </div>
     </body>

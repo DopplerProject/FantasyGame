@@ -17,6 +17,7 @@
         private $usu_email;
         private $usu_celular;
         private $usu_senha;
+        private $usu_money;
 
         // Insert Into
         public function create(){
@@ -24,12 +25,13 @@
             mysqli_query
             (
                 $conection->conectDatabase(),
-                "INSERT INTO tb_usuario (usu_nickname, usu_email, usu_celular, usu_senha)
+                "INSERT INTO tb_usuario (usu_nickname, usu_email, usu_celular, usu_senha, usu_money)
                 VALUES (
                     '$this->usu_nickname',
                     '$this->usu_email',
                     '$this->usu_celular',
-                    '$this->usu_senha'
+                    '$this->usu_senha',
+                    '$this->usu_money'
                 );"
             );
         }
@@ -62,6 +64,7 @@
                     $this->usu_email = $res["usu_email"];
                     $this->usu_celular = $res["usu_celular"];
                     $this->usu_senha = $res["usu_senha"];
+                    $this->usu_money = $res["usu_money"];
                 }
             }
         }
@@ -74,7 +77,8 @@
                 "UPDATE tb_usuario SET
                     usu_nickname = '$this->usu_nickname',
                     usu_email = '$this->usu_email',
-                    usu_celular = '$this->usu_celular'
+                    usu_celular = '$this->usu_celular',
+                    usu_money = '$this->usu_money'
                 WHERE usu_cod = '$this->usu_cod';"
             );
         }
@@ -118,6 +122,12 @@
         }
         public function setUsu_senha($e){
             $this->usu_senha = trim($e);
+        }
+        public function getUsu_money(){
+            return $this->usu_money;
+        }
+        public function setUsu_money($e){
+            $this->usu_money = $e;
         }
     }
 ?>
