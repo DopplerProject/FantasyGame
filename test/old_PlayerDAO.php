@@ -13,13 +13,13 @@
                 - usu_money
     */
 
-    // Utilizado para o testeDAO 
-    require_once "../app/util/ConexaoMySql.php";
+    // Utilizado para o testeDAO require_once 
+    // "../app/util/ConexaoMySql.php";
 
     // Classes de acesso ao banco de dados \\
-    // require_once "../util/ConexaoMySql.php";
+    require_once "../util/ConexaoMySql.php";
 
-    class UsuarioDAO
+    class PlayerDAO
     {
 
         // INSERT INTO \\
@@ -57,7 +57,7 @@
                 $conexao->estabelecerConexao(),
                 "SELECT usu_cod, usu_nickname, usu_email, 
                         usu_celular, usu_senha, usu_money
-                FROM tb_usuario " . $conexao->gerarCondicoes()
+                FROM tb_usuario"// . $conexao->gerarCondicoes()
             ) or die($query->error);
             // Verificando se a consulta não retornou mais de um resultado
             if(mysqli_num_rows($query) > 1){
@@ -82,9 +82,19 @@
         }
 
         // UPDATE \\
-        public function update($usu_cod, $usu_nickname, $usu_email, $usu_celular, $usu_senha, $usu_money)
+        public function update($usu_cod="", $usu_nickname="", $usu_email="", $usu_celular="", $usu_senha="", $usu_money="")
         {
             $conexao = new ConexaoMySql();
+            $conexao->setCampos(
+                array(
+                    "usu_cod" => $usu_cod,
+                    "usu_nickname" => $usu_nickname,
+                    "usu_email" => $usu_email,
+                    "usu_celular" => $usu_celular,
+                    "usu_senha" => $usu_senha,
+                    "usu_money" => $usu_money
+                )
+            );
             // Alteração só é realizada perante a PK
             $query = mysqli_query(
                 $conexao->estabelecerConexao(),
@@ -99,7 +109,7 @@
         }
 
         // DELETE \\
-        public function delete($usu_cod)
+        public function delete($usu_cod="")
         {
             $conexao = new ConexaoMySql();
             $query = mysqli_query(

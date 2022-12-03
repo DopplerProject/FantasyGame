@@ -1,6 +1,6 @@
 <?php
 
-    require_once "../dao/usuarioDAO.php";
+    require_once "../dao/UsuarioDAO.php";
 
     class RegisterSystem
     {

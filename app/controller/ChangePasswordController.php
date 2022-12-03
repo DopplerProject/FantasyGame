@@ -1,7 +1,7 @@
 <?php
 
     require_once "../util/Password.php";
-    require_once "../dao/usuarioDAO.php";
+    require_once "../dao/UsuarioDAO.php";
 
     $usu_cod = $_GET["cd"];
 

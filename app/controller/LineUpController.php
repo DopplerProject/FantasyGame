@@ -1,7 +1,7 @@
 <?php
 
     require_once "../util/MySqlConnection.php";
-    require_once "../dao/usuarioDAO.php";
+    require_once "../dao/UsuarioDAO.php";
     require_once "../dao/escalacaoDAO.php";
 
     $conection = new ConectionDatabase();

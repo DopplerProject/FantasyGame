@@ -1,124 +1,121 @@
 <?php
 
-    /* INFORMAÇÕES
-        -> DATABASE: DB_TCC
-        -> TABELA: tb_escalacao
+    /* 
+        INFORMAÇÕES DO DATA ACESS OBJECT (DAO):
+            -> DATABASE: '$esc_codigo',
+'$esc_sequencia',
+'$esc_usuario',
+'$esc_playerEscalado',
+'$esc_multiplicador',
+'$esc_periodo'DB_TCC
+            -> TABELA: tb_escalacao
+            -> Campos:
+                - esc_codigo 
+                - esc_sequencia 
+                - esc_usuario 
+                - esc_playerEscalado
+                - esc_multiplicador 
+                - esc_periodo
     */
 
-    // Inclusão do arquivo de conexão e das condições SQL \\
-    require_once "../../app/util/MySqlConnection.php";
-    require_once "../../app/util/SqlConditions.php";
+    // Utilizado para o testeDAO require_once 
+    // "../app/util/ConexaoMySql.php";
+
+    // Classes de acesso ao banco de dados \\
+    require_once "../util/ConexaoMySql.php";
 
     class EscalacaoDAO
     {
-        // Atributos da classe
-        private $esc_codigo;
-        private $esc_sequencia;
-        private $esc_usuario;
-        private $esc_playerEscalado;
-        private $esc_multiplicador;
 
-        // Insert into
-        public function create(){
-            $conection = new ConectionDatabase();
-            mysqli_query
-            (
-                $conection->conectDatabase(),
-                "INSERT INTO tb_escalacao (esc_sequencia, esc_usuario, esc_playerEscalado, esc_multiplicador)
+        // INSERT INTO \\
+        public function create($esc_sequencia = "", $esc_usuario = "", $esc_playerEscalado = "", $esc_multiplicador = "", $esc_periodo = "")
+        {
+            $conexao = new ConexaoMySql();
+            $query = mysqli_query(
+                $conexao->estabelecerConexao(),
+                "INSERT INTO tb_escalacao (esc_codigo, esc_sequencia, esc_usuario, esc_playerEscalado, esc_multiplicador, esc_periodo)
                 VALUES (
-                    '$this->esc_sequencia',
-                    '$this->esc_usuario',
-                    '$this->esc_playerEscalado',
-                    '$this->esc_multiplicador'
+                    '$esc_sequencia',
+                    '$esc_usuario',
+                    '$esc_playerEscalado',
+                    '$esc_multiplicador',
+                    '$esc_periodo'
                 );"
-            );
+            ) or die($query->error);
         }
 
-        // Listar os valores nas variáveis da classe
-        public function list($esc_codigo="", $esc_sequencia="", $esc_usuario="", $esc_playerEscalado="", $esc_multiplicador=""){
-            $conection = new ConectionDatabase();
-            $condition = new SqlConditions();
-            $condition->setFields(array(
-                "esc_codigo" => $esc_codigo,
-                "esc_sequencia" => $esc_sequencia,
-                "esc_usuario" => $esc_usuario,
-                "esc_playerEscalado" => $esc_playerEscalado,
-                "esc_multiplicador" => $esc_multiplicador
-            ));
-            $select = "SELECT * FROM tb_escalacao " . $condition->generateSqlConditions();
-            $query = mysqli_query(
-                $conection->conectDatabase(),
-                $select
+        // SELECT \\
+        public function list($esc_codigo = "", $esc_sequencia = "", $esc_usuario = "", $esc_playerEscalado = "", $esc_multiplicador = "", $esc_periodo = "")
+        {
+            $conexao = new ConexaoMySql();
+            $conexao->setCampos(
+                array(
+                    "esc_codigo" => $esc_codigo,
+                    "esc_sequencia" => $esc_sequencia,
+                    "esc_usuario" => $esc_usuario,
+                    "esc_playerEscalado" => $esc_playerEscalado,
+                    "esc_multiplicador" => $esc_multiplicador,
+                    "esc_periodo" => $esc_periodo
+                )
             );
+            $query = mysqli_query(
+                $conexao->estabelecerConexao(),
+                "SELECT esc_codigo, esc_sequencia, esc_usuario,
+                        esc_playerEscalado, esc_multiplicador, esc_periodo
+                FROM tb_escalacao" . $conexao->gerarCondicoes()
+            ) or die($query->error);
+            // Verificando se a consulta não retornou mais de um resultado
             if(mysqli_num_rows($query) > 1){
-                echo("OPS! ALGO DEU ERRADO!\nCOD ERRO: 808");  // Select retornou duplicado
-            } else{
+                echo("A CONSULTA RETORNOU MAIS DE UM REGISTRO!");
+            }else{
+                // Verificando se foram retornados registros da consulta
                 if(mysqli_num_rows($query) == 0){
-                    return "NENHUMA INFORMAÇÕES FOI ENCONTRADA COM ESTES FILTROS!";
+                    return "CONSULTA VAZIA";
                 } else{
-                    // Salvando os resultados nas variáveis da classe \\
+                    // Retornando os resultados da query em array
                     $res = mysqli_fetch_assoc($query);
-                    $this->esc_codigo = $res["esc_codigo"];
-                    $this->esc_sequencia = $res["esc_sequencia"];
-                    $this->esc_usuario = $res["esc_usuario"];
-                    $this->esc_playerEscalado = $res["esc_playerEscalado"];
-                    $this->esc_multiplicador = $res["esc_multiplicador"];
+                    return array(
+                        "esc_codigo" => $res["esc_codigo"],
+                        "esc_sequencia" => $res["esc_sequencia"],
+                        "esc_usuario" => $res["esc_usuario"],
+                        "esc_playerEscalado" => $res["esc_playerEscalado"],
+                        "esc_multiplicador" => $res["esc_multiplicador"],
+                        "esc_periodo" => $res["esc_periodo"]
+                    );
                 }
             }
         }
-        // Pegar os valores das variáveis e subir para o banco
-        public function update(){
-            $conection = new ConectionDatabase();
-            mysqli_query(
-                $conection->conectDatabase(),
+
+        // UPDATE \\
+        public function update($esc_codigo, $esc_sequencia, $esc_usuario, $esc_playerEscalado, $esc_multiplicador, $esc_periodo)
+        {
+            $conexao = new ConexaoMySql();
+            // Alteração só é realizada perante a PK
+            $query = mysqli_query(
+                $conexao->estabelecerConexao(),
                 "UPDATE tb_escalacao SET
-                    esc_sequencia = '$this->esc_sequencia',
-                    esc_usuario = '$this->esc_usuario',
-                    esc_playerEscalado = '$this->esc_playerEscalado',
-                    esc_multiplicador = '$this->esc_multiplicador'
-                WHERE esc_codigo = '$this->esc_codigo';"
-            );
-        }
-        // Delete de registros com base no código
-        public function delete(){
-            $conection = new ConectionDatabase();
-            mysqli_query
-            (
-                $conection->conectDatabase(),
-                "DELETE FROM tb_escalacao WHERE esc_codigo = '$this->esc_cogido';"
-            );
+                    esc_usuario = '$esc_usuario',
+                    esc_playerEscalado = '$esc_playerEscalado',
+                    esc_multiplicador = '$esc_multiplicador',
+                    esc_periodo = '$esc_periodo'
+                WHERE esc_codigo = '$esc_codigo'
+                    AND esc_sequencia = '$esc_sequencia',;"
+            ) or die($query->error);
         }
 
-        // --- Getters e Setters --- \\
-        public function getEsc_codigo(){
-            return $this->esc_codigo;
+        // DELETE \\
+        public function delete($esc_codigo, $esc_sequencia)
+        {
+            $conexao = new ConexaoMySql();
+            $query = mysqli_query(
+                $conexao->estabelecerConexao(),
+                "DELETE
+                 FROM tb_escalacao 
+                 WHERE esc_codigo = '$esc_codigo'
+                    AND esc_sequencia = '$esc_sequencia'"
+            ) or die($query->error);
+
         }
-        public function setEsc_codigo($e){
-            $this->esc_codigo = $e;
-        }
-        public function getEsc_sequencia(){
-            return $this->esc_sequencia;
-        }
-        public function setEsc_sequencia($e){
-            $this->esc_sequencia = $e;
-        }
-        public function getEsc_usuario(){
-            return $this->esc_usuario;
-        }
-        public function setEsc_usuario($e){
-            $this->esc_usuario = $e;
-        }
-        public function getEsc_playerEscalado(){
-            return $this->esc_playerEscalado;
-        }
-        public function setEsc_playerEscalado($e){
-            $this->esc_playerEscalado = $e;
-        }
-        public function getEsc_multiplicador(){
-            return $this->esc_multiplicador;
-        }
-        public function setEsc_multiplicador($e){
-            $this->esc_multiplicador = $e;
-        }
+
     }
 ?>
