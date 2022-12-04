@@ -10,7 +10,7 @@
     $data = new Data();
     $password = new Senhas();
 
-    $login = trim($_POST["login_input"]);
+    $login = strtoupper(trim($_POST["login_input"]));
     $password->setPassword($_POST["password_input"]);
 
 
