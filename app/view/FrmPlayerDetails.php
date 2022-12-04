@@ -1,27 +1,3 @@
-<?php
-    require_once "../util/MySqlConnection.php";
-    $conection = new ConectionDatabase();
-
-    $usu_cod = $_GET["cd"];
-    $player_cd = $_GET["player"];
-    $sql = mysqli_query(
-        $conection->conectDatabase(),
-        "SELECT pro_nickname,
-                org_cod,
-                org_desc,
-                org_pais,
-                pro_nome,
-                pro_dtNasc,
-                pro_valor,
-                pro_cod
-         FROM tb_player
-         INNER JOIN rl_player_organizacao USING(pro_cod)
-         INNER JOIN tb_organizacao ON org_cod = pro_time
-         WHERE pro_cod =" . $player_cd . ";"
-    );
-    $res = mysqli_fetch_assoc($sql);
-?>
-
 <!DOCTYPE html>
 <html lang="pt-Br">
     <head>

@@ -5,6 +5,12 @@
             case "1":
                 $msg = "LOGIN INVÁLIDO";
                 break;
+            case "2":
+                $msg = "OPS! ALGO DEU ERRADO! CONTATE O SUPORTE! ERRO 101"; 
+                break;
+            case "3":
+                $msg = "SENHA INVÁLIDA!";
+                break;
         }
         echo '<span id="mensage-login" class="mensage">' . $msg . '</span>';
     }

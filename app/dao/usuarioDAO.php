@@ -14,10 +14,10 @@
     */
 
     // Utilizado para o testeDAO 
-    require_once "../app/util/ConexaoMySql.php";
+    // require_once "../app/util/ConexaoMySql.php";
 
     // Classes de acesso ao banco de dados \\
-    // require_once "../util/ConexaoMySql.php";
+    require_once "../util/ConexaoMySql.php";
 
     class UsuarioDAO
     {
@@ -61,7 +61,7 @@
             ) or die($query->error);
             // Verificando se a consulta não retornou mais de um resultado
             if(mysqli_num_rows($query) > 1){
-                echo("A CONSULTA RETORNOU MAIS DE UM REGISTRO!");
+                return ("FORAM ENCONTRADOS MAIS DE UM REGISTRO COM ESTAS INFORMAÇÕES");
             }else{
                 // Verificando se foram retornados registros da consulta
                 if(mysqli_num_rows($query) == 0){

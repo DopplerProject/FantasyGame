@@ -1,29 +1,46 @@
 <?php
-    require_once "../model/RegisterSystem.php";
-    require_once "../util/Password.php";
+
+    require_once "../dao/UsuarioDAO.php";
+    require_once "../model/Usuario.php";
+    require_once "../util/Senhas.php";
     require_once "../util/Data.php";
 
+    $usuarioDAO = new UsuarioDAO();
+    $usuario = new Usuario();
+    $password = new Senhas();
     $data = new Data();
-    $password = new Password();
 
-    //--- Coletando as informações de login ---\\
-    $user = strtoupper(trim($_POST["user_input"]));
-    $email = strtoupper(trim($_POST["email_input"]));
-    $telefone = $data->tirarCaracteresEspeciais($_POST["fone_input"]);
-    if(strlen($telefone) < 10){
-        header("Location: ../view/FrmRegistration.php?msg=5");
-        die();
-    }
-    $password->setPassword($_POST["password_input"]);
-    if($password->checkPassword($pass) == false){
+    // Informações preenchidas pelo usuário
+    $usuario->setUsu_nickname(strtoupper(trim($_POST["user_input"])));
+    $usuario->setUsu_email(strtolower(trim($_POST["email_input"])));
+    $usuario->setUsu_celular($data->tirarCaracteresEspeciais(trim($_POST["fone_input"])));
+    $password->setPassword(trim($_POST["password_input"]));
+    $usuario->setUsu_senha($password->cryptography());
+    // Valor padrão
+    $usuario->setUsu_money(600);
+
+    // Verificando se as informações já não estão em uso \\
+    if(is_array($usuarioDAO->list("", $usuario->getUsu_nickname()))){
+        header("Location: ../view/FrmRegistration.php?msg=2");
+    } else if(is_array($usuarioDAO->list("", "", $usuario->getUsu_email()))){
+        header("Location: ../view/FrmRegistration.php?msg=3");
+    } else if(is_array($usuarioDAO->list("", "", "", $usuario->getUsu_celular()))){
+        header("Location: ../view/FrmRegistration.php?msg=4");
+    } else if(! $password->checkPassword()){  // Verificando "força" da senha
         header("Location: ../view/FrmRegistration.php?msg=1");
-        die();
+    } else if(strlen($usuario->getUsu_celular()) <> 11 || ! is_numeric($usuario->getUsu_celular())){
+        header("Location: ../view/FrmRegistration.php?msg=5");
+    } else {  // Realizando cadastro do usuário
+        $usuarioDAO->create(
+            $usuario->getUsu_nickname(),
+            $usuario->getUsu_email(),
+            $usuario->getUsu_celular(),
+            $usuario->getUsu_senha(),
+            $usuario->getUsu_money()
+        );
+        header("Location: ../view/FrmRegistration.php?msg=0");
     }
-    $pass = $password->cryptography();
-    
 
-    $registerSystem = new RegisterSystem();
-    $msg = $registerSystem->registrationSystem($user, $email, $telefone, $pass);
-    header("Location: ../view/FrmRegistration.php?msg=" . $msg);
-    die();
+
+
 ?>

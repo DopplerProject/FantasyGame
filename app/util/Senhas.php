@@ -1,5 +1,5 @@
 <?php
-    class Password
+    class Senhas
     {
         private $password;
 

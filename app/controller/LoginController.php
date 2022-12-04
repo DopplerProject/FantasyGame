@@ -1,30 +1,47 @@
 <?php
-    require_once "../model/LoginSystem.php";
-    require_once "../util/Password.php";
-    require_once "../util/Data.php";
 
-    //--- Coletando as informações de login ---\\
+    require_once "../dao/UsuarioDAO.php";
+    require_once "../model/Usuario.php";
+    require_once "../util/Data.php";
+    require_once "../util/Senhas.php";
+
+    $usuarioDAO = new UsuarioDAO();
+    $usuario = new Usuario();
     $data = new Data();
-    $password = new Password();
-    $user = strtoupper($data->tirarCaracteresEspeciais($_POST["login_input"]));
-    $pass = $password->cryptography($password->setPassword($_POST["password_input"]));
-    // Verificando o tipo de info para login \\
-    if(strpos($user, "@") == true){
-        $type = "email";
-    }else if(is_numeric($user)){
-        $type = "fone";
-    } else{
-        $type = "user";
+    $password = new Senhas();
+
+    $login = trim($_POST["login_input"]);
+    $password->setPassword($_POST["password_input"]);
+
+
+    // Identificando o tipo de login utilizado \\
+    if(is_numeric($login) AND strlen($login) == 11){
+        $query = $usuarioDAO->list("", "", "", $login);
+    } else if(str_contains($login, "@")){
+        $query = $usuarioDAO->list("", "", $login);
+    } else {
+        $query = $usuarioDAO->list("", $login);
     }
-    
-    
-    $loginSystem = new LoginSystem();
-    $login = $loginSystem->loginSystem($type, $user, $pass);
-    if($login["flag"] === true){
-        header("Location: ../view/FrmMainPage.php?cd=" . $login["usu_cod"]);
-        die();
-    }else{
-        header("Location: ../view/FrmLogin.php?msg=1");
-        die();  
+
+    if(is_array($query)){
+        // Salvando o resultado na query no objeto do usuário
+        $usuario->setUsu_cod($query["usu_cod"]);
+        $usuario->setUsu_nickname($query["usu_nickname"]);
+        $usuario->setUsu_email($query["usu_email"]);
+        $usuario->setUsu_celular($query["usu_celular"]);
+        $usuario->setUsu_senha($query["usu_senha"]);
+        $usuario->setUsu_money($query["usu_money"]);
+        // Conferindo a senha
+        if($usuario->loginSistema($login, $password->cryptography())){ // Senha correta
+            header("Location: ../view/FrmMainPage.php?cd=" . $usuario->getUsu_cod());
+        } else {  // Senha incorreta
+            header("Location: ../view/FrmLogin.php?msg=3");
+        }
+    } else {  // Consulta falhou
+        if($query == "FORAM ENCONTRADOS MAIS DE UM REGISTRO COM ESTAS INFORMAÇÕES"){
+            header("Location: ../view/FrmLogin.php?msg=2");
+        } else if($query == "CONSULTA VAZIA"){
+            header("Location: ../view/FrmLogin.php?msg=1");
+        }
     }
 ?>
