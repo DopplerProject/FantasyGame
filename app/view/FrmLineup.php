@@ -128,17 +128,87 @@ switch ($msg) {
                 </ul>
             </aside>
 
-        </div>
-    </div>
-    <div class="container">
-        <div id="players-card">
-            <table id="c">
-                <th id="players-table-header">
-                    <h1>JOGADORES PARA ESCALAÇÃO</h1>
-                </th>
-                <div id="players-lines">
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Jogadores /</span> Escalação
+                        <a href="../view/FrmMainPage.php?cd=<?php echo ($usu_cod) ?>" class="btn btn-secondary" style="float: right;">
+                            <div class="button">VOLTAR</div>
+                        </a>
+                    </h4>
+
+                    <?php
+
+                    require_once "../util/ConexaoMySql.php";
+
+                    $conection = new ConexaoMySql();
+
+                    $sql = mysqli_query(
+                        $conection->estabelecerConexao(),
+                        "SELECT pro_time FROM rl_player_organizacao GROUP BY pro_time;"
+                    );
+
+                    while ($teams = mysqli_fetch_assoc($sql)) {
+                        $players = mysqli_query(
+                            $conection->estabelecerConexao(),
+                            "SELECT tp.pro_cod,
+                                                    tp.pro_nickname,
+                                                    rlpo.pro_valor
+                                             FROM rl_player_organizacao rlpo
+                                                 INNER JOIN tb_player tp ON tp.pro_cod = rlpo.pro_cod
+                                             WHERE pro_time = " . $teams["pro_time"] . ";"
+                        );
+                        echo ('<div class="row mb-4">');
+
+                        while ($player = mysqli_fetch_assoc($players)) {
+                            echo ('<div class="col-md-6 col-lg-4 mb-3">
+                                                <div class="col">
+                                                    <div class="card h-100">
+                                                        <a href="../view/FrmPlayerDetails.php?cd=' . $usu_cod . '&player=' . $player["pro_cod"] . '"> 
+                                                            <img class="card-img-top" src="../../product/images/players_photos/' . $player["pro_cod"] . '.png" alt="Card image cap" /> </a>
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">' . $player["pro_nickname"] . '
+                                                                    <img style="width: 50px; float: right; " class="card-img-top" src="../../product/images/icons_teams/' . $teams["pro_time"] . '.png" alt="Card image cap" /> 
+                                                                </h5>
+                                                                
+                                                                <p class="card-text">
+                                                                ' . 'R$' . number_format($player["pro_valor"], 2, ',', '.') . '
+                                                                </p>
+                                                                
+                                                                <a href="../controller/LineUpController.php?cd=' . $usu_cod . '&player=' . $player["pro_cod"] . ' "  class="btn btn-primary">
+                                                                    ESCALAR
+                                                                </a>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>');
+                        }
+
+                        echo ('</div>');
+                    }
+                    ?>
+
+                    <!-- <div class="row mb-5">
+                        
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="../../product/template/img/elements/13.jpg" alt="Card image cap" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">
+                                            This is a longer card with supporting text below as a natural lead-in to additional content.
+                                            This content is a little bit longer.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
 
                     <!-- LISTAGEM DINÂMICA DOS JOGADORES -->
+                    <!--                     
                     <?php
 
                     require_once "../util/ConexaoMySql.php";
@@ -175,15 +245,19 @@ switch ($msg) {
                         echo ('</tr>');
                     }
 
-                    ?>
+                    ?> -->
+
 
                 </div>
-            </table>
-            <a href="../view/FrmMainPage.php?cd=<?php echo ($usu_cod) ?>">
-                <div class="button">VOLTAR</div>
-            </a>
+            </div>
+
+
         </div>
     </div>
+
+    </div>
+    </div>
+
 </body>
 
 </html>
