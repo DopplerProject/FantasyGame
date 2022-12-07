@@ -62,8 +62,7 @@
                     return array(
                         "org_cod" => $res["org_cod"],
                         "org_desc" => $res["org_desc"],
-                        "org_pais" => $res["org_pais"],
-                        "pro_nome" => $res["pro_nome"]
+                        "org_pais" => $res["org_pais"]
                     );
                 }
             }

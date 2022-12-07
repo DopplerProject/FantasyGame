@@ -1,7 +1,5 @@
 <?php
 
-    require_once "../dao/PlayerDAO.php";
-
     class Player{
 
         // Atributos da classe \\

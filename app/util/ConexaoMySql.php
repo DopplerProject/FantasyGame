@@ -6,8 +6,8 @@
         private $mysqlIp = "127.0.0.1";
         private $mysqlUser = "root";
         private $mysqlPassword = "";
-        //private $mysqlDatabase = "DB_TCC";
-        private $mysqlDatabase = "DB_WEB";
+        private $mysqlDatabase = "DB_TCC";
+        // private $mysqlDatabase = "DB_WEB";
 
         // Atributos da classe \\
         private $campos;
