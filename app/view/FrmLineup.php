@@ -40,6 +40,12 @@
                                 $conection->estabelecerConexao(),
                                 "SELECT pro_time FROM rl_player_organizacao GROUP BY pro_time;"
                             );
+
+                            $checkPlayer = mysqli_query(
+                                $conection->estabelecerConexao(),
+                                "SELECT esc_playerEscalado FROM tb_escalacao WHERE esc_usuario = '$usu_cod';"
+                            );
+
                             while($teams = mysqli_fetch_assoc($sql)){
                                 $players = mysqli_query(
                                     $conection->estabelecerConexao(),
@@ -52,6 +58,15 @@
                                 );
                                 echo('<tr class="player-row">');
                                 while($player = mysqli_fetch_assoc($players)){
+
+                                    $flag = false;
+                                    while($escalado = mysqli_fetch_assoc($checkPlayer)){
+                                        if($escalado["esc_playerEscalado"] == $player["pro_cod"]){
+                                            echo('<div class="escalado">');
+                                            $flag = true;
+                                        }
+                                    }
+
                                     // Listando os jogadores dinamicamente por time\\
                                     echo('<td class="player-colunm player-card">');
                                         echo('<a href="../view/FrmPlayerDetails.php?cd=' . $usu_cod . '&player=' . $player["pro_cod"] . '">');
@@ -63,6 +78,9 @@
                                         echo('<a href="../controller/LineUpController.php?cd='. $usu_cod . '&player=' . $player["pro_cod"] . '"><div class="button-select-player">ESCALAR</div></a>');
                                     echo('</td>');
                                 }
+
+                                if($flag){echo('</div>');}
+
                                 echo('</tr>'); 
                             }
                             

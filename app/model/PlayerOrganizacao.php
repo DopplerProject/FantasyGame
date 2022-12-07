@@ -2,7 +2,7 @@
 
     require_once "../dao/PlayerOrganizacaoDAO.php";
 
-    class Usuario{
+    class PlayerOrganizacao{
 
         // Atributos da classe \\
         private $pro_cod;
