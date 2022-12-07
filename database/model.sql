@@ -19,7 +19,7 @@ CREATE TABLE tb_usuario(
     );
     CREATE TABLE tb_escalacao(
         esc_codigo INTEGER NOT NULL AUTO_INCREMENT,
-        esc_sequencia INTEGER NOT NULL AUTO_INCREMENT,
+        esc_sequencia INTEGER NOT NULL,
         esc_usuario INTEGER,
         esc_playerEscalado INTEGER,
         esc_multiplicador FLOAT,
